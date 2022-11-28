@@ -8,3 +8,5 @@ foo*
 bar*
 *pycache*
 *workspace
+*testing
+Testing
