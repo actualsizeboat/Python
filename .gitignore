@@ -1,0 +1,10 @@
+*.ui
+.DS_store
+Wat
+wat*
+pytest
+pytest*
+foo*
+bar*
+*pycache*
+*workspace

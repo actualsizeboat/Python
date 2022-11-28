@@ -1,0 +1,368 @@
+#:import Factory kivy.factory.Factory
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<Goback@Popup>:
+    auto_dismiss: False
+    title: ""
+    separator_height: 0
+    size_hint: .5, .5
+    FloatLayout:
+        Image:
+            source: 'giveup.png'
+            pos_hint: {"center_x":.5,"center_y":.7}
+            size_hint_x: .9
+
+        Button:
+            pos_hint: {"center_x":.3,"center_y":.2}
+            size_hint: .35, .2
+            on_release:
+                app.sm.current = 'start'
+                root.dismiss()
+            Image:
+                source: 'yes.png'
+                center: self.parent.center
+                height: self.parent.height * .8
+                width: self.parent.width * .8
+        Button:
+            pos_hint: {"center_x":.7,"center_y":.2}
+            size_hint: .35, .2
+            on_release: root.dismiss()
+            Image:
+                source: 'no.png'
+                center: self.parent.center
+                height: self.parent.height * .8
+                width: self.parent.width * .8
+
+<Infopop@Popup>:
+    title: ""
+    separator_height: 0
+    size_hint: .5, .9
+    FloatLayout:
+        Image:
+            source: 'helptext.png'
+            pos_hint: {"center_x":.5,"center_y":.95}
+            size_hint: 0.8, 0.1
+        Label:
+            text: app.infotext
+            font_size: self.width/6
+            size_hint: 0.2, 0.2
+            pos_hint: {"center_x":.5,"center_y":.8}
+            halign: 'center'
+            valign: 'middle'
+        Image:
+            source: 'helpimage.png'
+            pos_hint: {"center_x":.5,"center_y":.45}
+            size_hint: .7, .7
+        Button:
+            pos_hint: {"center_x":.5,"center_y":.075}
+            size_hint: .2, .1
+            on_release: root.dismiss()
+            Image:
+                source: 'ok.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+
+<Recordspop@Popup>:  
+    title: ""
+    separator_height: 0
+    size_hint: .5, .9
+    FloatLayout:
+        Image:
+            source: 'recordstext.png'
+            pos_hint: {"center_x":.5,"center_y":.95}
+            size_hint: 0.8, 0.1
+        Label:
+            text: app.recordstext
+            pos_hint: {"center_x":.5,"center_y":.475}
+            size_hint: 0.65, 0.65
+            font_size: self.width/10
+            halign: 'center'
+            valign: 'middle'
+        Button:
+            pos_hint: {"center_x":.5,"center_y":.075}
+            size_hint: 0.2, 0.1
+            on_release: root.dismiss()
+            Image:
+                source: 'done.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+
+<Start_Screen>:
+    FloatLayout:
+        Button:
+            pos_hint: {"x":0.1, "top":.3}
+            background_color: (.5, .5, .5, .8)
+            size_hint: .1, .1
+            on_release:
+                Factory.Recordspop().open()
+            Image:
+                source: 'records.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+
+        Button:
+            pos_hint: {"top":.3,"right":.9}
+            background_color: (.5, .5, .5, .8)
+            size_hint: .1, .1
+            on_release:
+                Factory.Infopop().open()
+            Image:
+                source: 'info.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+
+        Button:
+            background_color: (.76, .06, .03, 1)
+            pos_hint: {"center_x":.5,"center_y":.5}
+            size_hint: 0.6, 0.2
+            on_press:
+                root.manager.transition = FadeTransition()
+                app.gamereset()
+            on_release:
+                root.manager.current = 'battle'
+                # root.manager.transition.direction = "left"
+                
+            Image:
+                source: 'challenger.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+
+        Image:
+            source: 'welcometext.png'
+            pos_hint: {"center_x":.5,"center_y":.8}
+            size_hint: 0.8, 0.2
+
+<Battle_Screen>:
+    on_pre_enter:
+        swordbtn.disabled = False
+        axebtn.disabled = False
+        shieldbtn.disabled = False
+        spearbtn.disabled = False
+        player1hp.source = '5.png'
+        player2hp.source = '5.png'
+        player1used.source = 'none.png'
+        player2used.source = 'none.png'
+        output.text = 'Choose your move!'
+    FloatLayout:
+
+        Image:
+            source: 'player1.png'
+            pos_hint: {"x":0.1, "top":.9}
+            size_hint: 0.2, 0.2
+
+        Image:
+            source: 'you.png'
+            pos_hint: {"center_x":.2,"center_y":.95}
+            size_hint: 0.2, 0.06
+
+        Image:
+            source: 'hp.png'
+            pos_hint: {"x":0.05, "top":.9}
+            size_hint: 0.1, 0.1
+
+        Image:
+            id: player1hp
+            source: root.p1hp + '.png'
+            pos_hint: {"x":0.05, "top":.79}
+            size_hint: 0.08, 0.08
+
+        Image:
+            id: player1used
+            source: root.p1used + '.png'
+            pos_hint: {"center_x":.30,"center_y":.80}
+            size_hint: 0.1, 0.1
+
+        Image:
+            source: 'player2.png'
+            pos_hint: {"x":0.7, "top":.9}
+            size_hint: 0.2, 0.2
+
+        Image:
+            source: 'opponent.png'
+            pos_hint: {"center_x":.8,"center_y":.95}
+            size_hint: 0.2, 0.1
+
+        Image:
+            source: 'hp.png'
+            pos_hint: {"x":0.85, "top":.9}
+            size_hint: 0.1, 0.1
+
+        Image:
+            id: player2hp
+            source: root.p2hp + '.png'
+            pos_hint: {"x":0.85, "top":.79}
+            size_hint: 0.08, 0.08
+
+        Image:
+            id: player2used
+            source: root.p2used + '.png'
+            pos_hint: {"center_x":.70,"center_y":.80}
+            size_hint: 0.1, 0.1
+
+        Button:
+            pos_hint: {"top":.3,"right":.9}
+            background_color: (.5, .5, .5, .8)
+            size_hint: .1, .1
+            on_release:
+                Factory.Infopop().open()
+                # app.root.current = "results"
+                # root.manager.transition.direction = "left"
+            Image:
+                source: 'info.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+
+        Button:
+            pos_hint: {"x":0.1, "top":.3}
+            background_color: (.5, .5, .5, .8)
+            size_hint: .1, .1
+            on_release:
+                Factory.Goback().open()
+            Image:
+                source: 'back.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+    
+    FloatLayout:
+        id: battlelayout
+        Button:
+            id: swordbtn
+            pos_hint: {"center_x":.2,"center_y":.5}
+            size_hint: 0.2, 0.2
+            on_press:
+                root.weapon_button(self)
+                app.gamestate()
+            on_release:
+                if app.gameover != 'none': app.root.current = "results"
+                else: pass
+            Image:
+                source: 'sword.png'
+                y: self.parent.y
+                x: self.parent.x
+                height: self.parent.height
+                width: self.parent.width
+
+        Button:
+            id: axebtn
+            pos_hint: {"center_x":.4,"center_y":.5}
+            size_hint: 0.2, 0.2
+            on_press:
+                root.weapon_button(self)
+                app.gamestate()
+            on_release:
+                if app.gameover != 'none': app.root.current = "results"
+                else: pass
+            Image:
+                source: 'axe.png'
+                # pos_hint: {"center_x":.2,"center_y":.5}
+                # width: self.parent.width
+                y: self.parent.y
+                x: self.parent.x
+                height: self.parent.height
+                # allow_stretch: True
+                width: self.parent.width
+
+        Button:
+            id: spearbtn
+            pos_hint: {"center_x":.6,"center_y":.5}
+            size_hint: 0.2, 0.2
+            on_press:
+                root.weapon_button(self)
+                app.gamestate()
+            on_release:
+                if app.gameover != 'none': app.root.current = "results"
+                else: pass
+            Image:
+                source: 'spear.png'
+                # pos_hint: {"center_x":.2,"center_y":.5}
+                # width: self.parent.width
+                y: self.parent.y
+                x: self.parent.x
+                height: self.parent.height
+                # allow_stretch: True
+                width: self.parent.width
+
+        Button:
+            id: shieldbtn
+            pos_hint: {"center_x":.8,"center_y":.5}
+            size_hint: 0.2, 0.2
+            on_press:
+                root.weapon_button(self)
+                app.gamestate()
+            on_release:
+                if app.gameover != 'none': app.root.current = "results"
+                else: pass
+            Image:
+                source: 'shield.png'
+                # pos_hint: {"center_x":.2,"center_y":.5}
+                # width: self.parent.width
+                y: self.parent.y
+                x: self.parent.x
+                height: self.parent.height
+                # allow_stretch: True
+                width: self.parent.width
+
+        Label:
+            id: output
+            text: root.gameoutput
+            # text: "You used Sword \n Your opponent used Shield \n \n No Damage"
+            font_size: self.width/8
+            size_hint: 0.2, 0.2
+            pos_hint: {"center_x":.5,"center_y":.8}
+            halign: 'center'
+            valign: 'middle'
+
+<Result_Screen>:
+
+    FloatLayout:
+
+        Button:
+            pos_hint: {"x":0.1, "top":.3}
+            background_color: (.5, .5, .5, .8)
+            size_hint: .1, .1
+            on_release:
+                app.root.current = "start"
+                root.manager.transition.direction = "right"
+            Image:
+                source: 'back.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+
+        Button:
+            pos_hint: {"top":.3,"right":.9}
+            background_color: (.5, .5, .5, .8)
+            size_hint: .1, .1
+            on_release:
+                Factory.Recordspop().open()
+            Image:
+                source: 'records.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+        
+        Button:
+            background_color: (.76, .06, .03, 1)
+            pos_hint: {"center_x":.5,"center_y":.2}
+            size_hint: 0.4, 0.2
+            on_release:
+                app.gamereset()
+                root.manager.current = 'battle'
+                root.manager.transition.direction = "left"
+            Image:
+                source: 'goagain.png'
+                center: self.parent.center
+                height: self.parent.height * .9
+                width: self.parent.width * .9
+
+        Image:
+            source: app.gameover + '.png'
+            pos_hint: {"center_x":.5,"center_y":.7}
+            size_hint_x: .9
